@@ -1,0 +1,221 @@
+openapi: 3.0.3
+info:
+  title: API de Gestión de Tareas
+  description: API RESTful para la gestión de tareas personales
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Servidor local de desarrollo
+
+security:
+  - bearerAuth: []
+
+paths:
+  /tasks:
+    post:
+      summary: Crear una nueva tarea
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '201':
+          description: Tarea creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+    get:
+      summary: Listar tareas
+      parameters:
+        - in: query
+          name: title
+          required: false
+          schema:
+            type: string
+          description: Título de la tarea
+        - in: query
+          name: description
+          required: false
+          schema:
+            type: string
+          description: Descripción de la tarea
+        - in: query
+          name: expirationDate
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Fecha de vencimiento de la tarea
+        - in: query
+          name: priority
+          required: false
+          schema:
+            $ref: '#/components/schemas/Priority'
+          description: Prioridad de la tarea
+        - in: query
+          name: status
+          required: false
+          schema:
+            $ref: '#/components/schemas/Status'
+          description: Estado de la tarea
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Número de página (zero-based)
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          description: Tamaño de la página
+      responses:
+        '200':
+          description: Lista de tareas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskDto'
+
+  /tasks/{id}:
+    get:
+      summary: Consultar una tarea por ID
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Tarea encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+        '404':
+          description: Tarea no encontrada
+
+    put:
+      summary: Actualizar una tarea
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskRequest'
+      responses:
+        '200':
+          description: Tarea actualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+        '404':
+          description: Tarea no encontrada
+
+    delete:
+      summary: Eliminar una tarea
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204':
+          description: Tarea eliminada
+
+  /tasks/{id}/complete:
+    patch:
+      summary: Marcar tarea como completada
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Tarea marcada como completada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+        '404':
+          description: Tarea no encontrada
+
+  /tasks/{id}/start:
+    patch:
+      summary: Marcar tarea como en curso
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Tarea marcada como en curso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+        '404':
+          description: Tarea no encontrada
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TaskId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: ID de la tarea
+
+  schemas:
+    TaskDto:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        dueDate:
+          type: string
+          format: date
+        priority:
+          $ref: '#/components/schemas/Priority'
+        status:
+          $ref: '#/components/schemas/Status'
+
+    TaskRequest:
+      type: object
+      required:
+        - title
+        - dueDate
+        - priority
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        dueDate:
+          type: string
+          format: date
+        priority:
+          $ref: '#/components/schemas/Priority'
+
+    Priority:
+      type: string
+      enum: [BAJA,MEDIA,ALTA]
+
+    Status:
+      type: string
+      enum: [PENDIENTE, EN_CURSO, COMPLETADA]
