@@ -16,6 +16,7 @@ descripción, prioridad, fecha de vencimiento y estado.
 - 📋 Listar tareas con filtros
 - 🔍 Consultar una tarea por ID
 - 📝 Actualizar una tarea
+- ✅ Marcar una tarea como en curso
 - ✅ Marcar una tarea como completada
 - ❌ Eliminar una tarea
 
