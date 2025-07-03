@@ -58,30 +58,6 @@ Ventajas:
 
 El archivo OpenAPI (`openapi.yaml`) se encuentra en la raíz del proyecto o en la carpeta `/openapi`.
 
-## 📥 Importar la API en Postman
-
-Puedes importar todos los endpoints en Postman fácilmente desde la especificación OpenAPI.
-
-### 🔹 Opción 1: Desde Swagger UI
-
-1. Asegúrate de que la API esté corriendo (`docker compose up`).
-2. Abre Swagger UI en tu navegador:  
-   [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-3. Haz clic en /v3/api-docs.
-4. Copia el contenido.
-5. Abre Postman.
-6. Haz clic en **"Import"** (parte superior izquierda) y pega el contenido
-7. Postman generará automáticamente una colección con todos los endpoints y ejemplos de requests.
-
-### 🔹 Opción 2: Desde el archivo `openapi.yaml` local
-
-1. Abre Postman.
-2. Haz clic en **"Import"** (parte superior izquierda) y pega o arrastra el archivo `openapi.yaml`.
-3. Postman generará automáticamente una colección con todos los endpoints y ejemplos de requests.
-
-> Esto te permitirá probar la API fácilmente sin tener que configurar manualmente cada petición.
-
-
 ## ⚙️ Configuración y ejecución del proyecto
 
 ### 1. Clonar el repositorio
@@ -114,6 +90,30 @@ Esto levantará:
 Una vez desplegado el entorno, accede a la documentación Swagger/OpenAPI en:
 
 🔗 http://localhost:8080/swagger-ui.html
+
+## 📥 Importar la API en Postman
+
+Puedes importar todos los endpoints en Postman fácilmente desde la especificación OpenAPI.
+
+### 🔹 Opción 1: Desde Swagger UI
+
+1. Asegúrate de que la API esté corriendo (`docker compose up`).
+2. Abre Swagger UI en tu navegador:  
+   [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+3. Haz clic en /v3/api-docs.
+4. Copia el contenido.
+5. Abre Postman.
+6. Haz clic en **"Import"** (parte superior izquierda) y pega el contenido
+7. Postman generará automáticamente una colección con todos los endpoints y ejemplos de requests.
+
+### 🔹 Opción 2: Desde el archivo `openapi.yaml` local
+
+1. Abre Postman.
+2. Haz clic en **"Import"** (parte superior izquierda) y pega o arrastra el archivo `openapi.yaml`.
+3. Postman generará automáticamente una colección con todos los endpoints y ejemplos de requests.
+
+> Esto te permitirá probar la API fácilmente sin tener que configurar manualmente cada petición.
+
 
 
 ## 🌐 Endpoints disponibles (`/api/v1`)
